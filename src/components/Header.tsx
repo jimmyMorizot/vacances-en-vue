@@ -32,16 +32,16 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-card shadow-sm">
       <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 py-3 sm:py-4">
         {/* Logo and Title */}
         <div className="flex items-center gap-3 flex-1">
-          <BookOpen className="w-8 h-8 sm:w-9 sm:h-9 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+          <BookOpen className="w-8 h-8 sm:w-9 sm:h-9 text-primary flex-shrink-0" />
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-xl sm:text-2xl font-bold text-foreground">
               VacancesEnVue
             </h1>
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 hidden sm:block">
+            <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
               Compte à rebours vers les vacances scolaires
             </p>
           </div>
@@ -52,7 +52,7 @@ export default function Header() {
           {selectedAcademy && (
             <Badge
               variant="secondary"
-              className="hidden sm:flex bg-amber-100 dark:bg-amber-900 text-amber-900 dark:text-amber-100 border-amber-300 dark:border-amber-700 px-3 py-1 text-xs sm:text-sm font-medium"
+              className="hidden sm:flex bg-secondary text-secondary-foreground px-3 py-1 text-xs sm:text-sm font-medium"
             >
               Zone {selectedAcademy.zone}
             </Badge>
@@ -61,7 +61,7 @@ export default function Header() {
           {/* Change Academy Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 text-xs sm:text-sm font-medium"
+            className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-md border border-border bg-card text-foreground hover:bg-muted transition-colors duration-200 text-xs sm:text-sm font-medium"
             aria-label="Change academy"
             aria-expanded={isOpen}
           >
@@ -78,9 +78,9 @@ export default function Header() {
 
       {/* Academy Selector Modal - Animated Dropdown */}
       {isOpen && (
-        <div className="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 px-4 sm:px-6 md:px-8 py-4 sm:py-6 animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="border-t border-border bg-muted px-4 sm:px-6 md:px-8 py-4 sm:py-6 animate-in fade-in slide-in-from-top-2 duration-300">
           <div className="max-w-2xl">
-            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+            <h3 className="text-sm font-semibold text-foreground mb-3">
               Sélectionnez votre académie
             </h3>
             <AcademySelector onSelect={handleAcademySelect} />

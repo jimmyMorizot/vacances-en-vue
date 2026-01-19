@@ -83,7 +83,7 @@ export default function App() {
   // Render loading state
   if (isInitializing || geoLocation.isLoading || vacationsLoading) {
     return (
-      <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-950 dark:to-gray-900">
+      <div className="min-h-screen flex flex-col bg-background">
         <Header />
         <main className="flex-1 px-4 sm:px-6 md:px-8 py-6 sm:py-8">
           <LoadingSpinner stage={geoLocation.isLoading ? 'geolocation' : 'api'} />
@@ -95,7 +95,7 @@ export default function App() {
   // Render error state
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-950 dark:to-gray-900">
+      <div className="min-h-screen flex flex-col bg-background">
         <Header />
         <main className="flex-1 px-4 sm:px-6 md:px-8 py-6 sm:py-8 flex items-center justify-center">
           <div className="w-full max-w-2xl">
@@ -115,7 +115,7 @@ export default function App() {
   // Render main app
   if (!currentStatus) {
     return (
-      <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-950 dark:to-gray-900">
+      <div className="min-h-screen flex flex-col bg-background">
         <Header />
         <main className="flex-1 px-4 sm:px-6 md:px-8 py-6 sm:py-8">
           <LoadingSpinner />
@@ -125,7 +125,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-950 dark:to-gray-900">
+    <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
       <Header />
 
@@ -136,13 +136,13 @@ export default function App() {
           <Countdown currentStatus={currentStatus} />
 
           {/* Footer Info */}
-          <footer className="mt-12 sm:mt-16 text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 space-y-2">
+          <footer className="mt-12 sm:mt-16 text-center text-xs sm:text-sm text-muted-foreground space-y-2">
             <p className="flex items-center justify-center gap-2">
-              <MapPin className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              <MapPin className="w-4 h-4 text-primary" />
               <span>Académie : <strong>{ACADEMIES.find((a) => a.zone === zone)?.name || 'Zone ' + zone}</strong></span>
             </p>
             <p>
-              Data source: <a href="https://data.gouv.fr" className="underline hover:text-gray-700 dark:hover:text-gray-300">data.gouv.fr</a>
+              Data source: <a href="https://data.gouv.fr" className="underline hover:text-foreground">data.gouv.fr</a>
             </p>
           </footer>
         </div>
