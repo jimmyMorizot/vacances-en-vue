@@ -39,6 +39,9 @@ export default function AcademySelector({
     // Save to localStorage
     localStorage.setItem(STORAGE_KEY, newId);
 
+    // Dispatch custom event to notify App.tsx of the change
+    window.dispatchEvent(new Event('academyChanged'));
+
     // Callback with academy object
     const academy = ACADEMIES.find((a) => a.id === newId);
     if (academy && onSelect) {

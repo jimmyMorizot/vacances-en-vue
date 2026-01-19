@@ -31,6 +31,24 @@ export default function App() {
     setSelectedAcademy(saved || null);
   }, []);
 
+  // Listen for academy changes from AcademySelector
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const saved = localStorage.getItem('selected_academy');
+      setSelectedAcademy(saved || null);
+      // Force re-initialization when academy changes
+      setIsInitializing(true);
+      setError(null);
+    };
+
+    // Listen to custom event dispatched by AcademySelector
+    window.addEventListener('academyChanged', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('academyChanged', handleStorageChange);
+    };
+  }, []);
+
   // Determine zone and fetch vacations
   const zone = selectedAcademy
     ? (ACADEMIES.find((a) => a.id === selectedAcademy)?.zone || 'A')
