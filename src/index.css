@@ -2,8 +2,6 @@
 
 @plugin "tailwindcss-animate";
 
-@custom-variant dark (&:is(.dark *));
-
 /* Configuration du thème Summer avec Tailwind CSS v4 */
 @theme {
   /* Couleurs Summer - Light mode */
@@ -60,8 +58,9 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
-/* Dark mode - Redéfinition des couleurs uniquement */
-.dark {
+/* Dark mode - Override @theme colors */
+html.dark {
+  /* Override @theme variables for dark mode with higher specificity */
   --color-background: oklch(0.26 0.02 60.79);
   --color-foreground: oklch(0.87 0.08 65.91);
   --color-card: oklch(0.31 0.03 57.05);
