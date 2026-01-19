@@ -88,7 +88,7 @@ export const getCurrentStatus = (today: Date, vacations: VacationPeriod[]): Curr
     const nextVacation = getNextVacationPeriod(today, vacations);
 
     if (!nextVacation) {
-      throw new Error('No vacation data available');
+      throw new Error('Aucune donnée de vacances disponible');
     }
 
     return {
@@ -103,7 +103,7 @@ export const getCurrentStatus = (today: Date, vacations: VacationPeriod[]): Curr
     const nextVacation = getNextVacation(today, vacations);
 
     if (!nextVacation) {
-      throw new Error('No vacation data available');
+      throw new Error('Aucune donnée de vacances disponible');
     }
 
     return {
@@ -164,7 +164,7 @@ export const formatVacationName = (vacation: VacationPeriod): string => {
   }
 
   // Fallback: use zones
-  return `Vacation - ${vacation.zones}`;
+  return `Vacances - ${vacation.zones}`;
 };
 
 /**

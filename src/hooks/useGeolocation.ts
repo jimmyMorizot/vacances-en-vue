@@ -15,7 +15,7 @@ export const useGeolocation = () => {
       setState({
         coords: null,
         isLoading: false,
-        error: 'Geolocation is not supported by your browser',
+        error: 'La géolocalisation n\'est pas supportée par votre navigateur',
       });
       return;
     }
@@ -33,17 +33,17 @@ export const useGeolocation = () => {
     };
 
     const handleError = (error: GeolocationPositionError) => {
-      let errorMessage = 'An unknown error occurred';
+      let errorMessage = 'Une erreur inconnue s\'est produite';
 
       switch (error.code) {
         case error.PERMISSION_DENIED:
-          errorMessage = 'Permission to access geolocation was denied. Please enable it in your browser settings.';
+          errorMessage = 'L\'accès à la géolocalisation a été refusé. Veuillez l\'activer dans les paramètres de votre navigateur.';
           break;
         case error.POSITION_UNAVAILABLE:
-          errorMessage = 'Position information is unavailable.';
+          errorMessage = 'Les informations de position ne sont pas disponibles.';
           break;
         case error.TIMEOUT:
-          errorMessage = 'The request to get user location timed out.';
+          errorMessage = 'La demande de localisation a expiré.';
           break;
       }
 

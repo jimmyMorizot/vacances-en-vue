@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ChevronDown, BookOpen, Settings } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import AcademySelector from '@/components/AcademySelector';
+import ThemeToggle from '@/components/ThemeToggle';
 import { ACADEMIES } from '@/constants/academies';
 import type { Academy } from '@/types/academy.types';
 
@@ -47,8 +48,11 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Academy Badge and Change Button */}
+        {/* Theme Toggle, Academy Badge and Change Button */}
         <div className="flex items-center gap-2 ml-4">
+          {/* Theme Toggle */}
+          <ThemeToggle />
+
           {selectedAcademy && (
             <Badge
               variant="secondary"

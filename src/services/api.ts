@@ -127,10 +127,10 @@ export const fetchVacations = async (
   } catch (error) {
     // Handle different error types
     if (error instanceof TypeError) {
-      throw new Error('Network error: Unable to reach the API server');
+      throw new Error('Erreur réseau : Impossible de joindre le serveur API');
     }
     if (error instanceof Error && error.name === 'AbortError') {
-      throw new Error('Request timeout: The API took too long to respond');
+      throw new Error('Délai d\'attente dépassé : L\'API a mis trop de temps à répondre');
     }
     throw error;
   }
