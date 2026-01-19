@@ -235,3 +235,94 @@ button:focus-visible {
     letter-spacing: var(--tracking-normal);
   }
 }
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom animations for Summer theme */
+@layer utilities {
+  /* Countdown number animation */
+  @keyframes countdown-flip {
+    0% {
+      opacity: 1;
+      transform: rotateX(0deg);
+    }
+    50% {
+      opacity: 0;
+      transform: rotateX(90deg);
+    }
+    100% {
+      opacity: 1;
+      transform: rotateX(0deg);
+    }
+  }
+
+  /* Fade in from top */
+  @keyframes fade-in-down {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Gentle pulse for interactive elements */
+  @keyframes gentle-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .animate-countdown-flip {
+    animation: countdown-flip 0.6s ease-in-out;
+    transform-style: preserve-3d;
+  }
+
+  .animate-fade-in-down {
+    animation: fade-in-down 0.5s ease-out;
+  }
+
+  .animate-gentle-pulse {
+    animation: gentle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  button,
+  a,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  /* Hover effects */
+  button:not(:disabled):hover,
+  a:hover,
+  [role="button"]:not(:disabled):hover {
+    @apply transform transition-transform duration-200 ease-in-out;
+  }
+
+  /* Focus visible states */
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible {
+    @apply outline-2 outline-offset-2 outline-amber-500;
+  }
+}

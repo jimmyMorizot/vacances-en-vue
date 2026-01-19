@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, BookOpen, Settings } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import AcademySelector from '@/components/AcademySelector';
 import { ACADEMIES } from '@/constants/academies';
@@ -36,7 +36,7 @@ export default function Header() {
       <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 py-3 sm:py-4">
         {/* Logo and Title */}
         <div className="flex items-center gap-3 flex-1">
-          <div className="text-2xl sm:text-3xl">📚</div>
+          <BookOpen className="w-8 h-8 sm:w-9 sm:h-9 text-amber-600 dark:text-amber-400 flex-shrink-0" />
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
               VacancesEnVue
@@ -66,7 +66,7 @@ export default function Header() {
             aria-expanded={isOpen}
           >
             <span className="hidden sm:inline">Changer d'académie</span>
-            <span className="sm:hidden">⚙️</span>
+            <Settings className="sm:hidden w-4 h-4" />
             <ChevronDown
               className={`w-4 h-4 transition-transform duration-300 ${
                 isOpen ? 'rotate-180' : ''

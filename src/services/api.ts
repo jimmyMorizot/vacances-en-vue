@@ -82,9 +82,14 @@ export const fetchVacations = async (
   }
 
   try {
+    // Get current school year (changes in September)
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const schoolYear = now.getMonth() >= 8 ? `${currentYear}-${currentYear + 1}` : `${currentYear - 1}-${currentYear}`;
+
     // Build query parameters
     const params = new URLSearchParams({
-      where: `zones="Zone ${zone}"`,
+      where: `zones="Zone ${zone}" AND annee_scolaire="${schoolYear}"`,
       limit: '100',
       order_by: 'start_date',
     });
@@ -93,13 +98,12 @@ export const fetchVacations = async (
 
     // Fetch with timeout
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
 
     const response = await fetch(url, {
       signal: controller.signal,
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
       },
     });
 

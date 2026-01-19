@@ -1,5 +1,6 @@
 import { useCountdown } from '@/hooks/useCountdown';
 import { Card } from '@/components/ui/card';
+import { Clock, BookOpen, Zap } from 'lucide-react';
 import type { CurrentStatus } from '@/types/vacation.types';
 
 interface CountdownProps {
@@ -40,7 +41,7 @@ export default function Countdown({ currentStatus }: CountdownProps) {
       {/* Header Title */}
       <div className="text-center space-y-3">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 flex items-center justify-center gap-2">
-          <span className="text-3xl sm:text-4xl">⏰</span>
+          <Clock className="w-8 h-8 sm:w-10 sm:h-10 text-amber-600 dark:text-amber-400" />
           <span>{eventLabel}</span>
         </h2>
         <p className="text-lg sm:text-xl font-semibold text-gray-600 dark:text-gray-400">
@@ -60,7 +61,7 @@ export default function Countdown({ currentStatus }: CountdownProps) {
       <Card className="p-4 sm:p-6 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950 border-2 border-emerald-200 dark:border-emerald-800">
         <div className="text-center space-y-2">
           <h3 className="text-xl sm:text-2xl font-bold text-emerald-900 dark:text-emerald-100 flex items-center justify-center gap-2">
-            <span className="text-2xl sm:text-3xl">📚</span>
+            <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-emerald-600 dark:text-emerald-400" />
             <span>{currentStatus.nextVacation.description}</span>
           </h3>
           <p className="text-sm sm:text-base text-emerald-700 dark:text-emerald-300">
@@ -85,8 +86,9 @@ export default function Countdown({ currentStatus }: CountdownProps) {
       {/* Expiration Message */}
       {timeRemaining.isExpired && (
         <Card className="p-4 sm:p-6 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-950 dark:to-pink-950 border-2 border-red-200 dark:border-red-800">
-          <p className="text-center text-red-900 dark:text-red-100 font-semibold">
-            ⏳ L'événement est maintenant! Profitez du moment!
+          <p className="text-center text-red-900 dark:text-red-100 font-semibold flex items-center justify-center gap-2">
+            <Zap className="w-5 h-5 text-red-600 dark:text-red-400" />
+            <span>L'événement est maintenant! Profitez du moment!</span>
           </p>
         </Card>
       )}

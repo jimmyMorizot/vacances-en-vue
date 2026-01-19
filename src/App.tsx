@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { MapPin } from 'lucide-react';
 import Header from '@/components/Header';
 import Countdown from '@/components/Countdown';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -136,8 +137,9 @@ export default function App() {
 
           {/* Footer Info */}
           <footer className="mt-12 sm:mt-16 text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 space-y-2">
-            <p>
-              📍 Académie : <strong>{ACADEMIES.find((a) => a.zone === zone)?.name || 'Zone ' + zone}</strong>
+            <p className="flex items-center justify-center gap-2">
+              <MapPin className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              <span>Académie : <strong>{ACADEMIES.find((a) => a.zone === zone)?.name || 'Zone ' + zone}</strong></span>
             </p>
             <p>
               Data source: <a href="https://data.gouv.fr" className="underline hover:text-gray-700 dark:hover:text-gray-300">data.gouv.fr</a>
