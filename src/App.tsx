@@ -28,6 +28,12 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+      {/* Test Tailwind CSS v4 */}
+      <div className="mt-8 p-6 bg-blue-500 text-white rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-2">✅ Tailwind CSS v4 est actif !</h2>
+        <p className="text-sm opacity-90">Les classes Tailwind fonctionnent correctement.</p>
+      </div>
     </>
   )
 }
