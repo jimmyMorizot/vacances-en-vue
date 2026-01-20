@@ -2,9 +2,20 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vacances-en-vue</title>
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <!-- Meta tags for PWA -->
+    <meta name="theme-color" content="#FF6B35" />
+    <meta name="description" content="Application web mobile-first pour visualiser en temps réel le temps restant avant les prochaines vacances scolaires françaises" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="VacancesEnVue" />
+    <title>VacancesEnVue - Compte à rebours vacances scolaires</title>
     <script>
       // Set dark mode BEFORE React loads to avoid flash
       // Default is dark mode if no preference saved

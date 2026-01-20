@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Countdown from '@/components/Countdown';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
+import InstallPrompt from '@/components/InstallPrompt';
 import { useVacations } from '@/hooks/useVacations';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { getCurrentStatus } from '@/utils/dateUtils';
@@ -146,6 +147,9 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
       <Header />
+
+      {/* PWA Install Prompt */}
+      <InstallPrompt />
 
       {/* Main Content */}
       <main className="flex-1 px-4 sm:px-6 md:px-8 py-6 sm:py-8">
