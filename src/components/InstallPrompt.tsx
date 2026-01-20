@@ -22,7 +22,7 @@ export default function InstallPrompt() {
         {/* Header with icon */}
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-start gap-3 flex-1">
-            <Download className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
+            <Download className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
             <div className="space-y-1">
               <h3 className="font-bold text-sm text-orange-900 dark:text-orange-100">
                 Installer VacancesEnVue
@@ -55,7 +55,7 @@ export default function InstallPrompt() {
           <button
             onClick={installApp}
             className="flex-1 h-8 text-xs px-3 py-1.5 rounded-md font-bold transition-colors
-              bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700
+              bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700
               dark:from-orange-500 dark:to-orange-600 dark:hover:from-orange-600 dark:hover:to-orange-700
               text-white dark:text-white shadow-md hover:shadow-lg"
           >

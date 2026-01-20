@@ -247,13 +247,9 @@ html.dark .footer-text-secondary {
   color: oklch(0.821 0.017 261.325) !important; /* Medium-light gray for dark mode */
 }
 
-/* Vacation card text on orange background - needs high contrast */
+/* Vacation card text on orange background - always dark for readability */
 .vacation-card-text {
-  color: oklch(0.373 0.034 259.733); /* Dark gray for light mode */
-}
-
-html.dark .vacation-card-text {
-  color: oklch(0.98 0 0) !important; /* Nearly white for dark mode on orange bg */
+  color: oklch(0.25 0.02 260) !important; /* Dark text - same in both light and dark modes */
 }
 
 /* Accessibility: Respect prefers-reduced-motion */

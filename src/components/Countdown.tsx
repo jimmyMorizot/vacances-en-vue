@@ -5,6 +5,7 @@ import type { CurrentStatus } from '@/types/vacation.types';
 
 interface CountdownProps {
   currentStatus: CurrentStatus;
+  selectedAcademyName?: string;
 }
 
 /**
@@ -30,7 +31,7 @@ const TimeCard: React.FC<{ value: number; label: string }> = ({ value, label }) 
  * Countdown Component
  * Main countdown display showing time remaining until vacation or school
  */
-export default function Countdown({ currentStatus }: CountdownProps) {
+export default function Countdown({ currentStatus, selectedAcademyName }: CountdownProps) {
   const timeRemaining = useCountdown(currentStatus.nextEvent);
 
   const isInVacation = currentStatus.status === 'in_vacation';
@@ -65,7 +66,7 @@ export default function Countdown({ currentStatus }: CountdownProps) {
             <span>{currentStatus.nextVacation.description}</span>
           </h3>
           <p className="text-sm sm:text-base vacation-card-text">
-            {currentStatus.nextVacation.zones} • {currentStatus.nextVacation.location}
+            {currentStatus.nextVacation.zones} • {selectedAcademyName || currentStatus.nextVacation.location}
           </p>
           <p className="text-xs sm:text-sm vacation-card-text font-medium">
             Du {new Date(currentStatus.nextVacation.start_date).toLocaleDateString('fr-FR', {

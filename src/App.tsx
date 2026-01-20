@@ -8,7 +8,7 @@ import InstallPrompt from '@/components/InstallPrompt';
 import { useVacations } from '@/hooks/useVacations';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { getCurrentStatus } from '@/utils/dateUtils';
-import { getZoneFromCoords } from '@/utils/academyMapper';
+import { getZoneFromCoords, getAcademyFromCoords } from '@/utils/academyMapper';
 import { ACADEMIES } from '@/constants/academies';
 import type { CurrentStatus } from '@/types/vacation.types';
 
@@ -74,9 +74,11 @@ export default function App() {
       }
     }
 
-    // Handle errors
-    if (geoLocation.error && !selectedAcademy) {
-      setError('geolocation');
+    // Handle geolocation errors - don't block, just continue with default zone A
+    // User can always manually select their academy
+    if (geoLocation.error && !selectedAcademy && vacations.length > 0) {
+      // Continue without error - zone A is already the default
+      setError(null);
       setIsInitializing(false);
     }
 
@@ -99,13 +101,33 @@ export default function App() {
     }
   }, [geoLocation, vacations, vacationsLoading, vacationsError, selectedAcademy]);
 
-  // Render loading state
-  if (isInitializing || geoLocation.isLoading || vacationsLoading) {
+  // Auto-select academy from geolocation (only once, on first detection)
+  useEffect(() => {
+    if (geoLocation.coords && !selectedAcademy) {
+      // Use Haversine formula to find the CLOSEST academy
+      const closestAcademy = getAcademyFromCoords(
+        geoLocation.coords.latitude,
+        geoLocation.coords.longitude
+      );
+      if (closestAcademy) {
+        localStorage.setItem('selected_academy', closestAcademy.id);
+        setSelectedAcademy(closestAcademy.id);
+        // Trigger re-initialization to update the UI immediately
+        setIsInitializing(true);
+        // Dispatch event to notify other components
+        window.dispatchEvent(new Event('academyChanged'));
+      }
+    }
+  }, [geoLocation.coords, selectedAcademy]);
+
+  // Render loading state - only show loading for API, not geolocation
+  // This allows the app to show data immediately with default zone
+  if (isInitializing || vacationsLoading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Header />
         <main className="flex-1 px-4 sm:px-6 md:px-8 py-6 sm:py-8">
-          <LoadingSpinner stage={geoLocation.isLoading ? 'geolocation' : 'api'} />
+          <LoadingSpinner stage={vacationsLoading ? 'api' : 'geolocation'} />
         </main>
       </div>
     );
@@ -155,7 +177,10 @@ export default function App() {
       <main className="flex-1 px-4 sm:px-6 md:px-8 py-6 sm:py-8">
         <div className="max-w-2xl mx-auto">
           {/* Countdown Display */}
-          <Countdown currentStatus={currentStatus} />
+          <Countdown
+            currentStatus={currentStatus}
+            selectedAcademyName={selectedAcademy ? ACADEMIES.find(a => a.id === selectedAcademy)?.name : undefined}
+          />
 
           {/* Footer Info */}
           <footer className="mt-12 sm:mt-16 space-y-4 text-center">
