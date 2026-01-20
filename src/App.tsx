@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MapPin } from 'lucide-react';
+import { MapPin, Navigation } from 'lucide-react';
 import Header from '@/components/Header';
 import Countdown from '@/components/Countdown';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -101,24 +101,29 @@ export default function App() {
     }
   }, [geoLocation, vacations, vacationsLoading, vacationsError, selectedAcademy]);
 
-  // Auto-select academy from geolocation (only once, on first detection)
+  // Auto-select academy from geolocation (runs once when coords are available)
   useEffect(() => {
-    if (geoLocation.coords && !selectedAcademy) {
+    if (geoLocation.coords) {
       // Use Haversine formula to find the CLOSEST academy
       const closestAcademy = getAcademyFromCoords(
         geoLocation.coords.latitude,
         geoLocation.coords.longitude
       );
+
       if (closestAcademy) {
-        localStorage.setItem('selected_academy', closestAcademy.id);
-        setSelectedAcademy(closestAcademy.id);
-        // Trigger re-initialization to update the UI immediately
-        setIsInitializing(true);
-        // Dispatch event to notify other components
-        window.dispatchEvent(new Event('academyChanged'));
+        // Always update to match geolocation (overrides cached value)
+        const currentSaved = localStorage.getItem('selected_academy');
+        if (currentSaved !== closestAcademy.id) {
+          localStorage.setItem('selected_academy', closestAcademy.id);
+          setSelectedAcademy(closestAcademy.id);
+          // Trigger re-initialization to update the UI immediately
+          setIsInitializing(true);
+          // Dispatch event to notify other components
+          window.dispatchEvent(new Event('academyChanged'));
+        }
       }
     }
-  }, [geoLocation.coords, selectedAcademy]);
+  }, [geoLocation.coords]);
 
   // Render loading state - only show loading for API, not geolocation
   // This allows the app to show data immediately with default zone
@@ -196,6 +201,17 @@ export default function App() {
                   </strong>
                 </span>
               </p>
+              {/* Geolocation button - show if no coords or permission denied */}
+              {(!geoLocation.coords || geoLocation.error) && (
+                <button
+                  onClick={geoLocation.requestPermission}
+                  disabled={geoLocation.isLoading}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-primary bg-primary/10 hover:bg-primary/20 rounded-full transition-colors disabled:opacity-50"
+                >
+                  <Navigation className="w-3 h-3" />
+                  {geoLocation.isLoading ? 'Localisation...' : 'Me localiser'}
+                </button>
+              )}
               <p className="footer-text-secondary">
                 Data source: <a href="https://data.gouv.fr" className="underline hover:opacity-70 transition-opacity">data.gouv.fr</a>
               </p>
