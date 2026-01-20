@@ -19,7 +19,7 @@ const TimeCard: React.FC<{ value: number; label: string }> = ({ value, label }) 
       <div className="text-5xl sm:text-6xl md:text-7xl font-black text-primary tabular-nums transition-all duration-300">
         {displayValue}
       </div>
-      <div className="text-sm sm:text-base font-semibold text-secondary-foreground mt-2 uppercase tracking-wide">
+      <div className="text-sm sm:text-base font-semibold footer-text-primary mt-2 uppercase tracking-wide">
         {label}
       </div>
     </Card>
@@ -44,7 +44,7 @@ export default function Countdown({ currentStatus }: CountdownProps) {
           <Clock className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
           <span>{eventLabel}</span>
         </h2>
-        <p className="text-lg sm:text-xl font-semibold text-muted-foreground">
+        <p className="text-lg sm:text-xl font-semibold footer-text-secondary">
           {currentStatus.eventType === 'vacation_start' ? 'Compte à rebours' : 'Temps restant'}
         </p>
       </div>
@@ -64,10 +64,10 @@ export default function Countdown({ currentStatus }: CountdownProps) {
             <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
             <span>{currentStatus.nextVacation.description}</span>
           </h3>
-          <p className="text-sm sm:text-base text-muted-foreground">
+          <p className="text-sm sm:text-base vacation-card-text">
             {currentStatus.nextVacation.zones} • {currentStatus.nextVacation.location}
           </p>
-          <p className="text-xs sm:text-sm text-muted-foreground font-medium">
+          <p className="text-xs sm:text-sm vacation-card-text font-medium">
             Du {new Date(currentStatus.nextVacation.start_date).toLocaleDateString('fr-FR', {
               day: 'numeric',
               month: 'long',
