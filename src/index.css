@@ -25,6 +25,12 @@
   --color-input: oklch(0.96 0.03 79.26);
   --color-ring: oklch(0.70 0.17 28.12);
 
+  /* Gray scale for footer text - Light mode */
+  --color-gray-700: oklch(0.373 0.034 259.733);
+  --color-gray-600: oklch(0.446 0.03 256.802);
+  --color-gray-200: oklch(0.887 0.013 264.052);
+  --color-gray-300: oklch(0.821 0.017 261.325);
+
   /* Charts */
   --color-chart-1: oklch(0.70 0.17 28.12);
   --color-chart-2: oklch(0.81 0.15 72.19);
@@ -58,8 +64,26 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
+/* Footer text colors - Custom variables for light/dark */
+:root {
+  --footer-text-primary: oklch(0.373 0.034 259.733);
+  --footer-text-secondary: oklch(0.446 0.03 256.802);
+  --footer-text-hover: oklch(0.2 0.02 260);
+}
+
 /* Dark mode - Override @theme colors */
 html.dark {
+  /* Footer text colors - Dark mode (light gray for contrast) */
+  --footer-text-primary: oklch(0.887 0.013 264.052);
+  --footer-text-secondary: oklch(0.821 0.017 261.325);
+  --footer-text-hover: oklch(0.95 0.01 260);
+
+  /* Gray scale for footer text - Dark mode (inverted for contrast) */
+  --color-gray-700: oklch(0.887 0.013 264.052);
+  --color-gray-600: oklch(0.821 0.017 261.325);
+  --color-gray-200: oklch(0.887 0.013 264.052);
+  --color-gray-300: oklch(0.821 0.017 261.325);
+
   /* Override @theme variables for dark mode with higher specificity */
   --color-background: oklch(0.26 0.02 60.79);
   --color-foreground: oklch(0.87 0.08 65.91);
@@ -204,6 +228,23 @@ html.dark {
     font-family: var(--font-sans);
     letter-spacing: var(--tracking-normal);
   }
+}
+
+/* Footer text colors with proper contrast */
+.footer-text-primary {
+  color: oklch(0.373 0.034 259.733); /* Dark gray for light mode */
+}
+
+.footer-text-secondary {
+  color: oklch(0.446 0.03 256.802); /* Medium gray for light mode */
+}
+
+html.dark .footer-text-primary {
+  color: oklch(0.887 0.013 264.052) !important; /* Light gray for dark mode */
+}
+
+html.dark .footer-text-secondary {
+  color: oklch(0.821 0.017 261.325) !important; /* Medium-light gray for dark mode */
 }
 
 /* Accessibility: Respect prefers-reduced-motion */

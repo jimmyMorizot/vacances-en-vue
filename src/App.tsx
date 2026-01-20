@@ -160,18 +160,24 @@ export default function App() {
           {/* Footer Info */}
           <footer className="mt-12 sm:mt-16 space-y-4 text-center">
             {/* Academic Info */}
-            <div className="text-xs sm:text-sm text-muted-foreground space-y-2">
+            <div className="text-xs sm:text-sm footer-text-primary space-y-2">
               <p className="flex items-center justify-center gap-2">
                 <MapPin className="w-4 h-4 text-primary" />
-                <span>Académie : <strong>{ACADEMIES.find((a) => a.zone === zone)?.name || 'Zone ' + zone}</strong></span>
+                <span>
+                  Académie : <strong>
+                    {selectedAcademy
+                      ? ACADEMIES.find((a) => a.id === selectedAcademy)?.name || 'Inconnue'
+                      : ACADEMIES.find((a) => a.zone === zone)?.name || 'Zone ' + zone}
+                  </strong>
+                </span>
               </p>
-              <p>
-                Data source: <a href="https://data.gouv.fr" className="underline hover:text-foreground">data.gouv.fr</a>
+              <p className="footer-text-secondary">
+                Data source: <a href="https://data.gouv.fr" className="underline hover:opacity-70 transition-opacity">data.gouv.fr</a>
               </p>
             </div>
 
             {/* DevChallenges Footer */}
-            <div className="pt-4 border-t border-border text-sm text-muted-foreground">
+            <div className="pt-4 border-t border-border text-sm footer-text-secondary">
               <p>
                 Créé avec{' '}
                 <span className="text-red-500" aria-label="amour">
@@ -182,7 +188,7 @@ export default function App() {
                   href="https://devchallenges.yoandev.co/challenge/2026-week-03/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline hover:text-foreground transition-colors"
+                  className="underline hover:opacity-70 transition-opacity"
                 >
                   DevChallenges 2026 Week 03
                 </a>
