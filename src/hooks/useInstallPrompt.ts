@@ -38,11 +38,15 @@ export const useInstallPrompt = (): InstallPromptState => {
     // Check for the beforeinstallprompt event
     const handleBeforeInstallPrompt = (e: Event) => {
       const event = e as BeforeInstallPromptEvent;
-      // Prevent the mini-infobar from appearing
+      // IMPORTANT: Prevent the browser's default install prompt from showing
+      // We want to use our custom prompt instead
       event.preventDefault();
-      // Stash the event so it can be triggered later
+
+      // Stash the event so it can be triggered later by our custom prompt
       setDeferredPrompt(event);
       setCanInstall(true);
+
+      console.log('beforeinstallprompt event captured - PWA is installable');
     };
 
     const handleAppInstalled = () => {
