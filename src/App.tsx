@@ -101,29 +101,24 @@ export default function App() {
     }
   }, [geoLocation, vacations, vacationsLoading, vacationsError, selectedAcademy]);
 
-  // Auto-select academy from geolocation (runs once when coords are available)
+  // Auto-select academy from geolocation (runs when coords are available)
   useEffect(() => {
     if (geoLocation.coords) {
+      const { latitude, longitude } = geoLocation.coords;
+
       // Use Haversine formula to find the CLOSEST academy
-      const closestAcademy = getAcademyFromCoords(
-        geoLocation.coords.latitude,
-        geoLocation.coords.longitude
-      );
+      const closestAcademy = getAcademyFromCoords(latitude, longitude);
 
       if (closestAcademy) {
-        // Always update to match geolocation (overrides cached value)
-        const currentSaved = localStorage.getItem('selected_academy');
-        if (currentSaved !== closestAcademy.id) {
-          localStorage.setItem('selected_academy', closestAcademy.id);
-          setSelectedAcademy(closestAcademy.id);
-          // Trigger re-initialization to update the UI immediately
-          setIsInitializing(true);
-          // Dispatch event to notify other components
-          window.dispatchEvent(new Event('academyChanged'));
-        }
+        // ALWAYS update the academy based on geolocation
+        // This ensures the displayed academy matches the user's actual location
+        localStorage.setItem('selected_academy', closestAcademy.id);
+        setSelectedAcademy(closestAcademy.id);
+        // Dispatch event to notify other components
+        window.dispatchEvent(new Event('academyChanged'));
       }
     }
-  }, [geoLocation.coords]);
+  }, [geoLocation.coords?.latitude, geoLocation.coords?.longitude]);
 
   // Render loading state - only show loading for API, not geolocation
   // This allows the app to show data immediately with default zone
@@ -185,6 +180,7 @@ export default function App() {
           <Countdown
             currentStatus={currentStatus}
             selectedAcademyName={selectedAcademy ? ACADEMIES.find(a => a.id === selectedAcademy)?.name : undefined}
+            selectedAcademyZone={selectedAcademy ? ACADEMIES.find(a => a.id === selectedAcademy)?.zone : undefined}
           />
 
           {/* Footer Info */}
