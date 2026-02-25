@@ -38,7 +38,7 @@ export const getAcademyByDepartment = (departmentCode: string): Academy | null =
 
 /**
  * Get department code from GPS coordinates using the French government API
- * Uses api-adresse.data.gouv.fr reverse geocoding
+ * Uses the Géoplateforme reverse geocoding (replaces deprecated api-adresse.data.gouv.fr)
  */
 const getDepartmentFromCoords = async (
   latitude: number,
@@ -46,7 +46,7 @@ const getDepartmentFromCoords = async (
 ): Promise<string | null> => {
   try {
     const response = await fetch(
-      `https://api-adresse.data.gouv.fr/reverse/?lon=${longitude}&lat=${latitude}&type=municipality`
+      `https://data.geopf.fr/geocodage/reverse?lon=${longitude}&lat=${latitude}&index=address&limit=1`
     );
     if (!response.ok) return null;
 
