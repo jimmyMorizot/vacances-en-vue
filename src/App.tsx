@@ -8,7 +8,7 @@ import InstallPrompt from '@/components/InstallPrompt';
 import { useVacations } from '@/hooks/useVacations';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { getCurrentStatus } from '@/utils/dateUtils';
-import { getZoneFromCoords, getAcademyFromCoords } from '@/utils/academyMapper';
+import { getZoneFromCoords, getAcademyFromCoordsAsync } from '@/utils/academyMapper';
 import { ACADEMIES } from '@/constants/academies';
 import type { CurrentStatus } from '@/types/vacation.types';
 
@@ -102,21 +102,18 @@ export default function App() {
   }, [geoLocation, vacations, vacationsLoading, vacationsError, selectedAcademy]);
 
   // Auto-select academy from geolocation (runs when coords are available)
+  // Uses reverse geocoding API to find the correct department, then maps to academy
   useEffect(() => {
     if (geoLocation.coords) {
       const { latitude, longitude } = geoLocation.coords;
 
-      // Use Haversine formula to find the CLOSEST academy
-      const closestAcademy = getAcademyFromCoords(latitude, longitude);
-
-      if (closestAcademy) {
-        // ALWAYS update the academy based on geolocation
-        // This ensures the displayed academy matches the user's actual location
-        localStorage.setItem('selected_academy', closestAcademy.id);
-        setSelectedAcademy(closestAcademy.id);
-        // Dispatch event to notify other components
-        window.dispatchEvent(new Event('academyChanged'));
-      }
+      getAcademyFromCoordsAsync(latitude, longitude).then((academy) => {
+        if (academy) {
+          localStorage.setItem('selected_academy', academy.id);
+          setSelectedAcademy(academy.id);
+          window.dispatchEvent(new Event('academyChanged'));
+        }
+      });
     }
   }, [geoLocation.coords?.latitude, geoLocation.coords?.longitude]);
 
