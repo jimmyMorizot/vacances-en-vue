@@ -27,8 +27,56 @@ const haversineDistance = (
 };
 
 /**
- * Get the closest academy from GPS coordinates
- * Uses Haversine formula to calculate distances
+ * Find academy by department code
+ * Looks up which academy contains the given department
+ */
+export const getAcademyByDepartment = (departmentCode: string): Academy | null => {
+  return ACADEMIES.find((academy) =>
+    academy.departments.includes(departmentCode)
+  ) || null;
+};
+
+/**
+ * Get department code from GPS coordinates using the French government API
+ * Uses api-adresse.data.gouv.fr reverse geocoding
+ */
+const getDepartmentFromCoords = async (
+  latitude: number,
+  longitude: number
+): Promise<string | null> => {
+  try {
+    const response = await fetch(
+      `https://api-adresse.data.gouv.fr/reverse/?lon=${longitude}&lat=${latitude}&type=municipality`
+    );
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    const properties = data?.features?.[0]?.properties;
+    if (!properties) return null;
+
+    // The API returns a "citycode" (code INSEE) — the first 2 chars are the department
+    // Exception: Corsica (2A, 2B) and overseas (3-digit codes like 971)
+    const cityCode: string = properties.citycode || '';
+    if (!cityCode) return null;
+
+    // Overseas territories have 3-digit department codes (971, 972, 973, 974)
+    if (cityCode.startsWith('97')) {
+      return cityCode.substring(0, 3);
+    }
+    // Corsica: 2A or 2B
+    if (cityCode.startsWith('2A') || cityCode.startsWith('2B')) {
+      return cityCode.substring(0, 2);
+    }
+    // Metropolitan France: first 2 digits
+    return cityCode.substring(0, 2);
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Get the closest academy from GPS coordinates (fallback: Haversine distance)
+ * Used as synchronous fallback when the API-based lookup fails
  */
 export const getAcademyFromCoords = (
   latitude: number,
@@ -65,7 +113,40 @@ export const getAcademyFromCoords = (
 };
 
 /**
- * Get academy zone from GPS coordinates
+ * Get academy from GPS coordinates — async version
+ * First tries department-based lookup via the French government reverse geocoding API,
+ * then falls back to Haversine distance if the API call fails.
+ * This fixes the bug where cities near academy borders (e.g. Tours) were
+ * mapped to the wrong academy (Poitiers instead of Orléans-Tours).
+ */
+export const getAcademyFromCoordsAsync = async (
+  latitude: number,
+  longitude: number
+): Promise<Academy | null> => {
+  // Try department-based lookup first (accurate)
+  const department = await getDepartmentFromCoords(latitude, longitude);
+  if (department) {
+    const academy = getAcademyByDepartment(department);
+    if (academy) return academy;
+  }
+
+  // Fallback to Haversine distance (less accurate for border cities)
+  return getAcademyFromCoords(latitude, longitude);
+};
+
+/**
+ * Get academy zone from GPS coordinates (async, accurate)
+ */
+export const getZoneFromCoordsAsync = async (
+  latitude: number,
+  longitude: number
+): Promise<'A' | 'B' | 'C' | null> => {
+  const academy = await getAcademyFromCoordsAsync(latitude, longitude);
+  return academy ? academy.zone : null;
+};
+
+/**
+ * Get academy zone from GPS coordinates (sync fallback)
  * Returns 'A' | 'B' | 'C'
  */
 export const getZoneFromCoords = (
